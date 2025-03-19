@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예약 서비스 홈페이지</title>
+    <style>
+        /* 전체 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        /* 헤더 스타일 */
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        /* 네비게이션 스타일 */
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #FFA500;
+        }
+        /* 섹션 스타일 */
+        .section {
+            padding: 10px;
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+        }
+        .section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .section p {
+            text-align: center;
+            color: #555;
+            line-height: 1.6;
+        }
+        /* 버튼 스타일 */
+        .button {
+            display: block;
+            width: 200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #FFA500;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #FF6347;
+        }
+        /* 카테고리 스타일 */
+        .category {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .category-item {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f0f0f0;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+            position: relative;
+        }
+        .category-item:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .category-item img {
+            width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .category-item img:hover {
+            transform: scale(2.2); /* 이미지를 확대하는 효과 */
+        }
+        .car-info {
+            display: none;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: -10px;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        /* 리뷰 스타일 */
+        .review-button {
+            margin: 6px;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block; /* 가로 정렬을 위한 추가 */
+        }
+        .review-button:hover {
+            background-color: #0056b3;
+        }
+        .review {
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .review h3 {
+            color: #007bff;
+        }
+        /* 푸터 스타일 */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 2px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .event-listeners-container {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 9999;
+        }
+        .event-listeners-container p {
+            margin: 5px 0;
+        }
+    </style>
+    <script src="scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const eventListenersContainer = document.createElement('div');
+            eventListenersContainer.className = 'event-listeners-container';
+            document.body.appendChild(eventListenersContainer);
+
+            function addEventListenerInfo(listenerName, info) {
+                const p = document.createElement('p');
+                p.textContent = `${listenerName}: ${info}`;
+                eventListenersContainer.appendChild(p);
+            }
+
+            // 이벤트 리스너 1,2
+            const carItems = document.querySelectorAll('.category-item');
+            carItems.forEach(item => {
+                const carInfo = item.querySelector('.car-info');
+                const infoText = document.createElement('div');
+                infoText.className = 'event-listener-info';
+                infoText.textContent = '이미지 아이템에 마우스를 올리면 차량 정보가 표시됨 & 이미지 확대';
+                addEventListenerInfo('이벤트 리스너 1, 2', infoText.textContent);
+
+                item.addEventListener('mouseover', function() {
+                    carInfo.style.display = 'block';
+                });
+
+                item.addEventListener('mouseout', function() {
+                    carInfo.style.display = 'none';
+                });
+            });
+
+            // 이벤트 리스너 3
+            const reviewButtons = document.querySelectorAll('.review-button');
+            reviewButtons.forEach((button, index) => {
+                addEventListenerInfo('이벤트 리스너 3', `리뷰 버튼 ${index + 1}을 클릭하면 해당 리뷰가 표시됩니다.`);
+                button.addEventListener('click', function() {
+                    const reviews = document.querySelectorAll('.review');
+                    reviews.forEach(review => {
+                        review.style.display = 'none';
+                    });
+                    reviews[index].style.display = 'block';
+                });
+            });
+
+            // 이벤트 리스너 4
+            const reservationInfo = document.querySelector('.reservation-info');
+            const infoText3 = document.createElement('div');
+            infoText3.className = 'event-listener-info';
+            infoText3.textContent = '상담 예약 정보를 마우스로 가리킬 때 연락처가 표시됨';
+            addEventListenerInfo('이벤트 리스너 4', infoText3.textContent);
+
+            reservationInfo.addEventListener('mouseover', function() {
+                const contactInfo = document.querySelector('.contact-info');
+                contactInfo.style.display = 'block';
+            });
+
+            reservationInfo.addEventListener('mouseout', function() {
+                const contactInfo = document.querySelector('.contact-info');
+                contactInfo.style.display = 'none';
+            });
+        });
+    </script>
+</head>
+<body>
+<header>
+    <h1>환영합니다!</h1>
+    <nav>
+        <ul>
+            <li><a href="#">홈</a></li>
+            <li><a href="#">소개</a></li>
+            <li><a href="#">서비스</a></li>
+            <li><a href="#">연락</a></li>
+        </ul>
+    </nav>
+</header>
+<article class="section">
+    <h2>소개</h2>
+    <p>안녕하세요! 아냥주식회사 홈페이지입니다.</p>
+</article>
+<section>
+    <article class="section">
+        <h2>서비스</h2>
+        <p>자동차 렌트 서비스를 제공하고 있습니다.</p>
+        <a href="reserve.html" class="button">서비스 예약하기</a>
+    </article>
+</section>
+<section>
+    <article class="section">
+        <h2>렌터카 종류</h2>
+        <div class="category">
+            <div class="category-item">
+                <img src="C:\Users\장한주\OneDrive\사진\바탕 화면\파나메라.png" alt="포르쉐 파나메라">
+                <div class="car-info" id="info-Porsche">포르쉐 파나메라 : 가솔린</div>
+            </div>
+            <div class="category-item">
+                <img src="C:\Users\장한주\OneDrive\사진\스크린샷\우라칸.png" alt="람보르기니 우라칸">
+                <div class="car-info" id="info-Lamborghini">람보르기니 우라칸 : 가솔린</div>
+            </div>
+            <div class="category-item">
+                <img src="C:\Users\장한주\OneDrive\사진\바탕 화면\마이바흐.png" alt="마이바흐">
+                <div class="car-info" id="info-Maybach">마이바흐 : 가솔린</div>
+            </div>
+        </div>
+    </article>
+</section>
+<section>
+    <article class="section">
+        <h2>리뷰 게시판</h2>
+        <!-- 리뷰 버튼 추가 -->
+        <button class="review-button">리뷰 1</button>
+        <button class="review-button">리뷰 2</button>
+        <button class="review-button">리뷰 3</button>
+        <!-- 리뷰 내용 추가 -->
+        <div class="review" style="display: none;">
+            <h3>리뷰 1</h3>
+            <p>첫 번째 리뷰 : 차 상태가 아주 좋네요!</p>
+        </div>
+        <div class="review" style="display: none;">
+            <h3>리뷰 2</h3>
+            <p>두 번째 : 사장님이 친절해요.</p>
+        </div>
+        <div class="review" style="display: none;">
+            <h3>리뷰 3</h3>
+            <p>세 번째 : 가성비 갑입니다!!</p>
+        </div>
+    </article>
+</section>
+<footer>
+    <div class="reservation-info">
+        <p>상담 예약은 전화주세요.</p>
+        <p class="contact-info" style="display: none;">고객센터 : 010 - 1234 - 5678</p>
+    </div>
+</footer>
+</body>
+</html>

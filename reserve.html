@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서비스 예약</title>
+    <style>
+        /* 전체 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            text-align: center;
+        }
+        /* 폼 스타일 */
+        form {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        select,
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #FFA500;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #FF6347;
+        }
+        .event-listener-info {
+            font-size: 0.8em;
+            color: #888;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>서비스 예약</h1>
+    <form id="reservationForm" onsubmit="submitReservation(event)">
+        <label for="name">이름:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="email">이메일:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="date">예약 날짜:</label>
+        <input type="date" id="date" name="date" required><br>
+        <label for="car">차 기종:</label>
+        <select id="car" name="car" required>
+            <option value="" selected disabled>차량 선택</option>
+            <option value="Porsche">포르쉐 파나메라</option>
+            <option value="Lamborghini">람보르기니 우라칸</option>
+            <option value="Maybach">마이바흐</option>
+        </select><br>
+        <input type="submit" value="예약">
+    </form>
+
+    <script>
+        function submitReservation(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+            console.log('예약 정보:', formObject);
+            // 여기서 실제로 서버로 예약 데이터를 전송할 수 있습니다.
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const eventListeners = [
+                '폼이 제출될 때, 사용자 입력을 콘솔에 출력합니다.',
+                '폼 입력 필드에 포커스되었을 때, 입력 필드의 테두리 색을 변경합니다.',
+                '폼 입력 필드에서 포커스가 해제될 때, 입력 필드의 테두리 색을 원래대로 되돌립니다.',
+                '이메일 주소의 유효성을 검사하고, 잘못된 경우 사용자에게 메시지를 표시합니다.',
+                '예약 날짜가 변경되었을 때, 변경 내용을 콘솔에 출력합니다.',
+                '차량 선택이 변경되었을 때, 변경 내용을 콘솔에 출력합니다.',
+                '폼이 리셋될 때, 콘솔에 메시지를 출력합니다.',
+                '페이지가 로드되었을 때, 콘솔에 메시지를 출력합니다.'
+            ];
+
+            const form = document.getElementById('reservationForm');
+
+            eventListeners.forEach((listener, index) => {
+                const infoText = document.createElement('div');
+                infoText.className = 'event-listener-info';
+                infoText.textContent = `이벤트 리스너 ${index + 1}: ${listener}`;
+                form.parentNode.insertBefore(infoText, form);
+            });
+
+            const inputFields = document.querySelectorAll('input, select');
+            inputFields.forEach(field => {
+                field.addEventListener('focus', function() {
+                    this.style.border = '1px solid #FFA500';
+                });
+                field.addEventListener('blur', function() {
+                    this.style.border = '1px solid #ccc';
+                });
+            });
+
+            const emailField = document.getElementById('email');
+            emailField.addEventListener('input', function() {
+                const email = this.value;
+                const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                if (!isValid) {
+                    this.setCustomValidity('유효한 이메일 주소를 입력하세요.');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+
+            const dateField = document.getElementById('date');
+            dateField.addEventListener('change', function() {
+                console.log('이벤트 리스너 5: 예약 날짜가 변경되었습니다.');
+            });
+
+            const carSelect = document.getElementById('car');
+            carSelect.addEventListener('change', function() {
+                console.log('이벤트 리스너 6: 차량 선택이 변경되었습니다.');
+            });
+
+            const reservationForm = document.getElementById('reservationForm');
+            reservationForm.addEventListener('reset', function() {
+                console.log('이벤트 리스너 7: 폼이 리셋되었습니다.');
+            });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('이벤트 리스너 8: 페이지가 로드되었습니다.');
+            });
+        });
+    </script>
+</body>
+</html>
